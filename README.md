@@ -10,7 +10,7 @@ Kniitting is a hobby known for destressing or relaxing.  There is a heavy time c
 
 The problem this project aims to solve is making this selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. 
 
-I'll be focussing on knitting for this project as it's a hobby I've been doing for over three decades and more confortable assesing recomendation level of success than the other fibre arts. 
+I'll be focussing on knitting for this project as it's a hobby I've been practicing for over three decades and more confortable assesing recomendation level of success in that area rather than the other fibre arts. 
 
 ### About Ravelry
 Ravelry is a free indie-website started in 2007 which supports documenting fiber art projects. 
@@ -38,7 +38,7 @@ Sat
 27
 28 - Complete NN
 Monday 
-29 - work on presentation and deployment
+29 - work on presentation and deployment - or streamlet
 30 
 1 - dry run presentation
 2 - presentation
