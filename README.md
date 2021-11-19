@@ -23,25 +23,27 @@ ref: https://en.wikipedia.org/wiki/Ravelry
 #### Note this project is not asscoiated with Ravelry - all content is provided by Ravelry
 
 ## Timeline:
-18 - start!
-19 - Data gathering cleaning
-20 - Simple Model (popularity and rating)
-21 - EDA, more feature engineering - stretch goal - first content based
+* 18 - start!
+* 19 - Data gathering cleaning
+* 20 - Simple Model (popularity and rating)
+* 21 - EDA, more feature engineering - stretch goal - first content based
+
 Monday
-22 
-22.5- more feature engineering - 2nd content based 
-23
-24 - collaborative filtering (Item Based)
-25
-26 - hybrid content based and colaborative filtering 
-Sat
-27 - final model complete
-28 - repo clean up and buffer time (model tuning if have time)
+* 22 
+* 22.5- more feature engineering - 2nd content based 
+* 23
+* 24 - collaborative filtering (Item Based)
+* 25
+* 26 - hybrid content based and colaborative filtering 
+* Sat
+* 27 - final model complete
+* 28 - repo clean up and buffer time (model tuning if have time)
+
 Monday 
-29 - work on presentation and deployment - or streamlet
-30 
-1 - dry run presentation
-2 - presentation
+* 29 - work on presentation and deployment - or streamlet
+* 30 
+* 1 - dry run presentation
+* 2 - presentation
 
 ## Progress Report:
 
