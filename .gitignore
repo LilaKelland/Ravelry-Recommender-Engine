@@ -1,0 +1,15 @@
+/data
+
+.ipynb_checkpoints
+*/.ipynb_checkpoints/*
+**__pycache__
+.DS_Store?
+.DS_Store
+config.py
+
+/config.py
+.ipynb_checkpoints
+/.ipynb_checkpoints/
+.pycache
+**pycache
+resources.ipynb
