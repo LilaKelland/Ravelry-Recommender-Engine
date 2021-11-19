@@ -52,7 +52,7 @@ Nov19
 - sent email to team, hoping for response, but starting brainstorm alternative ideas, and moving forward
 with this one - with fingers crossed
 - working on accessing, cleaning data 
-- data exploration 
+- 
 - 
 Nov 18 
 - picked a topic! And started documentation
