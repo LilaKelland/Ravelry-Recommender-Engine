@@ -30,13 +30,12 @@ ref: https://en.wikipedia.org/wiki/Ravelry
 
 Monday
 * 22 
-* 22.5- more feature engineering - 2nd content based 
-* 23
-* 24 - collaborative filtering (Item Based) - start investigating RBM??
-* 25
-* 26 - hybrid content based and colaborative filtering 
-* Sat
-* 27 - final model complete ( would LOVE to be able to add in yarn filters for recommendation)
+* 23 - more feature engineering -  content based - start downloading data for collaborative
+* 24 - 
+* 25 - keep tweaking content based
+* 26 - collaborative filtering (Item Based) - start investigating RBM??
+* Sat 27 - hybrid content based and colaborative filtering 
+*  - final model complete ( would LOVE to be able to add in yarn filters for recommendation)
 * 28 - repo clean up and buffer time (model tuning if have time)
 
 Monday 
@@ -46,12 +45,17 @@ Monday
 * 2 - presentation
 
 ## Progress Report:
+
+Nov 27
+- word cloud https://www.datacamp.com/community/tutorials/wordcloud-python
+add in ""short-rows", "ribbed"
+
 Nov 22
 - this morning looked at data and realized, it doesn't match the query (and has duplicates accross queries).  debugged and instead of "most recent", use sort by "best match" - seems to be okay now 
 - updated api query to get actaully relevent data has been running for hours
-- GOAL - would like to work on pipelining processing! And have ALL patterns data in db or csv 
 - (stretch - have narrowed down to which patterns to pull projects, and then start calling for users for to populate similarity matrix
 - learning about deep NN and RBM's for collabroative model (but worried about data at the moment)
+- okay, have a systematic approach to get user to item dataframe - need to narrow down patterns to use.
 
 Nov 21
 - queried data (very slow process) - managed to get 120 mb (rating 5 clothing and rating 4 all) - turns out that's 
@@ -86,9 +90,14 @@ Next steps:
 - step further would be to take yarn in your stash (on ravelry) and use that as a recommender (woah - this could be interesting, take colourways that people use commonly together on projects - ML what works best, with what you have, and your preferences, and patterns and separate yardage requirements)
 
 
-### Data 
+### Data Dictionary / Terminology 
 
 gauge_per_inch - a measure of how loosely quickly a project can be knit up.  - can be related to yarn thickness or airyness of fabric
 
 stages of life - why not user-user recommendations
 eliminate high producers (often pumping out products for craft shows and sales)
+
+** include file list 
+** data dictionary
+
+attributes refer to construction
