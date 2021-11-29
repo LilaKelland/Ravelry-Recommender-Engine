@@ -1,48 +1,54 @@
-# Ravelry-Recommender-Engine
+# Ravelry Recommender Engine
 
-### Goal:
-Create a knitting pattern recommender engine for Ravelry
+### Demo
+This is temporarily available through:
+
+
 
 ### Probelm:
-Ravelry (https://www.ravelry.com/) has cornered the market in terms online knitting and fibre art content. Nearly any pattern can be found in it's database. The website is well laid out with a fabulous search menu - if you know what you're looking for, but if you don't you can get lost for hours trying to dig through the hundreds of thousands of obtions.  In the words of Steve Jobs "A lot of times, people don’t know what they want until you show it to them".
+[Ravelry](https://www.ravelry.com/) has cornered the market in terms online knitting and crochet content. Nearly any pattern can be found in it's database. The website is well laid out with a fabulous search menu - if you know what you're looking for, but if you don't you can get lost for hours trying to dig through the hundreds of thousands of options.  
 
-Knitting is a hobby known for destressing or relaxing.  There is a heavy time commitment, and monetary investment for the materials required for each project, and because of the shear number patterns, picking out the next project to start can be quite stressful.  
+Knitting is a hobby known for destressing or relaxing.  However, the act of picking out the next pattern to start can be quite stressful.  This is compounded by the pressure of choosing the perfect option as you could be spending 10's to 100's of hours working on it, and the monetary cost for yarn can be quite high as well, so want to avoid selection-regret.  I often find myself paralized with the paradox of choice when browsing for what to work on. 
 
-The problem this project aims to solve is making this selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. 
+This project aims to ease this problem; making this pattern selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. It's been found in the popular [jam study](https://faculty.washington.edu/jdb/345/345%20Articles/Iyengar%20%26%20Lepper%20(2000).pdf),that with people buy less with too many options provided to them, and conversely, in the words of [Steve Jobs](https://www.forbes.com/sites/chunkamui/2011/10/17/five-dangerous-lessons-to-learn-from-steve-jobs/?sh=7f4db0373a95) "A lot of times, people don’t know what they want until you show it to them".
 
-I'll be focussing on knitting for this project as it's a hobby I've been practicing for over three decades and more confortable assesing recomendation level of success in that area rather than the other fibre arts. 
+A successful recommender system would increase knitting comminty engagement - which is at the core of the website.  By overcoming some selection indecision, more projects could be completed (as well as more patterns being purchased as an added bonus).
+
+I focussed only on knitting for this recommender engine as it's a hobby I've been practicing for over three decades and more confortable assesing recomendation level of success in that area rather than the other fibre arts of crochet or machine knitting. 
 
 ### About Ravelry
-Ravelry is a free indie-website started in 2007 which supports documenting fiber art projects. 
+[Ravelry](https://www.ravelry.com/) is a free indie-website started in 2007 which supports documenting fiber art projects. 
 
-"The community [needed] an independent, not for-profit, decentralized, community owned database of patterns, yarns, and their connections to projects". - Cassidy :Ravelry co-founder  
+"The community [needed] an independent, not for-profit, decentralized, community owned database of patterns, yarns, and their connections to projects". 
+* - Cassidy :Ravelry co-founder  
 
 Members share projects, ideas, collections of yarn and tools.  Because it's so community driven, nearly any knitting or crochet pattern can be found and reviewed. 
-ref: https://en.wikipedia.org/wiki/Ravelry
+[source](https://en.wikipedia.org/wiki/Ravelry) 
 
-#### Note this project is not asscoiated with Ravelry - all content is provided by Ravelry through public api
+#### Per api agreement:
+I will note that this project is not asscoiated with Ravelry. The data used was graciously provided through Ravelry's public [api](https://www.ravelry.com/api#index).
 
-## Timeline:
-* 18 - start!
-* 19 - Data gathering cleaning
-* 20 - Simple Model (popularity and rating)
-* 21 - EDA, more feature engineering - stretch goal - first content based (but I'll be happy with ALL the data)
+### Recommendation Systems
+The three main types of re
 
-Monday
-* 22 
-* 23 - more feature engineering -  content based - start downloading data for collaborative
-* 24 - 
-* 25 - keep tweaking content based
-* 26 - collaborative filtering (Item Based) - start investigating RBM??
-* Sat 27 - hybrid content based and colaborative filtering 
-*  - final model complete ( would LOVE to be able to add in yarn filters for recommendation)
-* 28 - repo clean up and buffer time (model tuning if have time)
+### The Data
+*downloading limitations , comminity clean up required - several columns were unstructured data nested dictionarys had to be parsed out, 
+missing data
 
-Monday 
-* 29 - work on presentation and deployment - or streamlet
-* 30 
-* 1 - dry run presentation
-* 2 - presentation
+here are the 
+'pattern_id', 'name', 'name_permalink', 'favorites_count',
+       'projects_count', 'difficulty_average', 'difficulty_count',
+       'rating_average', 'queued_projects_count', 'rating_count',
+       'pattern_type_names', 'pattern_type_clothing', 'photos_url',
+       'pattern_needle_sizes', 'pattern_attributes', 'yardage_max', 'yardage',
+       'generally_available', 'gauge', 'gauge_divisor', 'free', 'downloadable',
+       'categories', 'yarn_weight_description', 'month_avail', 'year_avail',
+       'needle_sizes', 'gauge_per_inch'
+       
+after removing outliers that can affect scaling
+
+final columns are 
+
 
 ## Progress Report:
 
@@ -89,7 +95,9 @@ Next steps:
 - if you have yarn (say from stash, or reclaimed or thrifted), recommend patterns you may like to try to use that yarn up*** that would be my stretch goal! (yardage, weight) - excited about this part
 - step further would be to take yarn in your stash (on ravelry) and use that as a recommender (woah - this could be interesting, take colourways that people use commonly together on projects - ML what works best, with what you have, and your preferences, and patterns and separate yardage requirements)
 
-
+## Table of Contents
+* [Week 1](/Week_1)
+    * [Day 1](/Week_1/Day_1)
 ### Data Dictionary / Terminology 
 
 gauge_per_inch - a measure of how loosely quickly a project can be knit up.  - can be related to yarn thickness or airyness of fabric
