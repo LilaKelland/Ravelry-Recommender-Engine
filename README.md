@@ -48,7 +48,8 @@ here are the
 after removing outliers that can affect scaling
 
 final columns are 
-
+# other issues - cold start etc
+time 
 
 ## Progress Report:
 

@@ -3,7 +3,9 @@ import pandas as pd
 import numpy as np
 import requests
 from util_functions import *
-
+# KNN
+from sklearn.neighbors import NearestNeighbors
+from scipy.sparse import csr_matrix
 
 # Load the data
 @st.cache(allow_output_mutation=True)
@@ -14,6 +16,22 @@ df = load_data()
 
 # Popularity dataframe
 popular_df = get_popularity(df)
+name_permalink_list, image_url, url = list_top_popular_patterns(popular_df[0:20])
+
+# knn
+df_knn = pd.read_csv('data/less_sparse_users_patterns.csv', low_memory=False)
+metadata = df[df['pattern_id'].isin(df_knn.pattern_ids.values)]
+
+# utility matrix for knn
+user_knit = df_knn.copy()
+user_knit = user_knit.drop_duplicates(['user_id', 'pattern_ids'])  
+
+user_knit_pivot = user_knit.pivot(index='pattern_ids', columns='user_id', values='has_knit').fillna(0)
+user_knit_matrix = csr_matrix(user_knit_pivot.values)
+
+model_knn = NearestNeighbors(metric = 'cosine', algorithm = 'brute')
+model_knn.fit(user_knit_matrix)
+
 
 st.title("Ravelry Recommender Engine Demo")
 st.subheader("Recommender SYSTEMS IMAGE GOES HERE!")
@@ -27,24 +45,59 @@ option = st.sidebar.selectbox('',('Simple Recommender', 'Filter Based'))
 if option == 'Simple Recommender':
     st.header('Recommendations Based on Popularity')
     st.write('These recommendations are based on a combination of favourites (likes) counts and number of projects made counts per pattern. These are independent of user behaviour or pattern details.')
+    
     if st.checkbox('View Raw Data'):
         st.dataframe(popular_df[0:100])
 
+    for i in range(len(name_permalink_list)):
+        st.write(f'{i+1}. {name_permalink_list[i]}, {url[i]}')
+        st.image(image_url[i])
+
+
 if option == 'Filter Based':
-    text_input = st.text_input("Enter pattern url endpoint: ")
-    st.write("eg http etc etc")
-    st.markdown(f"my input is:, {text_input}")
+
+    st.write("Some pattern examples to try are: alaska-6,  ")
+    st.write("Alternatively you can go check out the website and find something you like.  Please note to prevent 'cold start'; for this system, the chosen pattern needs at least 300 completed projects for collaborative filtering.")
+    text_input = st.text_input("Enter pattern url endpoint (https://www.ravelry.com/patterns/library/_______): ")
+    st.markdown(f"Your selected pattern for recommendations is:  https://www.ravelry.com/patterns/library/{text_input}")
     
     # st.sidebar.subheader("Content Based Filter") # or title instead of write
     filter_slider = st.sidebar.slider('Content Filter <-----------------> Colaborative Filter',0.,1.,0.)
     st.sidebar.write('Slider in the fully left position will give recommendations based on pattern feature (i.e. needle size, yarn weight, description) similarties.  Fully right slider recommendations will be based on user-pattern behaviours ("people that knit this pattern also knit these other patterns"). A slider in between will result in a hybrid weighted result.') 
     if filter_slider ==1.0:
-        st.write('Colaborative Filtering Recommendations:')
-    elif filter_slider ==0.0:
-        st.write('Content Based Recommendations:')
-    else:
-        st.write('Hybrid Filtering Recommendations:')
+        st.subheader('Colaborative Filtering Recommendations:')
 
+        chosen_name_permalink = 'eunice'
+        query_pattern_id = get_pattern_id_from_name(chosen_name_permalink)
+        distances, indices = model_knn.kneighbors(user_knit_pivot.loc[query_pattern_id,:].values.reshape(1, -1), n_neighbors = 10)  
+
+        # give recomendations for the pattern selected
+        pattern_ids=[]
+        pattern_indices = []
+        pattern_name= []
+        for i in range(0, len(distances.flatten())):
+            if i == 0:
+                st.write('Recommendations for {0}:\n'.format(get_pattern_name_from_index(get_index_from_pattern_id(int(query_pattern_id)))))
+
+        else:
+            pattern_id = int(user_knit_pivot.index[indices.flatten()[i]])
+            pattern_metadata_index = get_index_from_pattern_id(pattern_id)
+            pattern_name = get_pattern_name_from_index(pattern_metadata_index)
+            pattern_indices.append(pattern_metadata_index)
+            st.write('{0}: {1} {2}, with distance of: {3}'
+                    .format(i, pattern_id, pattern_name, distances.flatten()[i]))
+    
+        closest_df_knn = metadata.loc[pattern_indices]
+
+        # check number of patterns - make sure it will work - if not print out diff subheader and note
+    elif filter_slider ==0.0:
+        st.subheader('Content Based Recommendations:')
+        # check number of patterns - make sure it will work - if not print out diff subheader and note
+    else:
+        st.subheader('Hybrid Recommendations:')
+
+    if st.checkbox('View Raw Data'):
+        st.dataframe(popular_df[0:100])
    
 # """ 
 # # header

@@ -1,34 +1,62 @@
 import pandas as pd
 import numpy as np
 import ast
+import streamlit
 
 #------------------------------------------------
 def get_name_permalink_from_url(pattern_url):
     print(f'permalink: {name_permalink}')
     return pattern_url.rsplit('/', 1)[-1]
     
-def get_metadata_from_name_permalink(name_permalink):
+def get_metadata_from_name_permalink(name_permalink, df):
     try:
         return df[df['name_permalink'] ==name_permalink]
     except:
         print("pattern not found in dataframe - making api call to gather data")
         #get metadata
 
-def get_pattern_metadata_from_url(pattern_url):
+def get_pattern_metadata_from_url(pattern_url, df):
     name_permalink = get_name_permalink_from_url(pattern_url)
     return get_metadata_from_name_permalink(name_permalink)
 
 def get_url_from_name_permalink(name_permalink):
     return("https://www.ravelry.com/patterns/library/" + name_permalink)
 
-def get_index_from_name_permalink(name_permalink):
+def get_index_from_name_permalink(name_permalink, df):
     return df[df['name_permalink'] ==name_permalink].index[0]
 
-def get_url_from_index(idx):
+
+def get_url_from_index(idx, df):
     name_permalink = df.iloc[idx]['name_permalink']
     pattern_url = get_url_from_name_permalink(name_permalink)
     return pattern_url
 # ------------------------------------------------
+def list_top_popular_patterns(df):
+    name_permalink_list = []
+    image_url = []
+    url = []
+    for i in range(df.shape[0]):
+        name_permalink_list.append(df.name_permalink.iloc[i])
+        image_url.append(df.photos_url.iloc[i])
+        url.append('https://www.ravelry.com/patterns/library/' +df.name_permalink.iloc[i])
+    return name_permalink_list, image_url, url
+
+def print_top_popular(name_permalink_list, image_url, url):
+    for i in range(len(name_permalink_list)):
+        print(f'{name_permalink_list[i]}, {url[i]}')
+        
+# def st_print_top_popular(name_permalink_list, image_url, url):
+#     for i in range(len(name_permalink_list)):
+#         st.write(f'{name_permalink_list[i]}, {url[i]}')
+
+def get_popularity(df):
+    """ Adds together favorites_count and projects_count as a populartiy metric.
+    Used for output in simple recommender. """
+    
+    df['popularity'] = df.favorites_count+ df.projects_count
+    df = df.sort_values("popularity", ascending =False)
+    return df
+#------------------------------------------------------------
 
 class DataframeFunctionTransformer():
     """ Allows for functions on whole dataframe (like ones that take in more than one column to operate on """
@@ -182,7 +210,7 @@ def to_sentence(x):
     return sentence
 
 def filter_words(x):
-    list_attributes_to_keep = [ 'intarsia','lace','icord','felted','fair-isle','eyelets', 'entrelac','duplicate-stitch','doll-size', 'buttoned','asymmetric','beads','bobble-or-popcorn','brioche-tuck', 'cables','ribbed','amigurumi','bias','double-knit','shortrows', 'slippedstitches', 'stripes','thrums','short-rows', 'zipper']
+    list_attributes_to_keep = [ 'intarsia','lace','felted','fair-isle','eyelets', 'entrelac','duplicate-stitch','doll-size', 'buttoned','asymmetric','beads','bobble-or-popcorn','brioche-tuck', 'cables','ribbed','amigurumi','bias','double-knit','short-rows', 'slipped-stitches', 'stripes','thrums','short-rows', 'zipper', 'stranded', 'baby']#, 'icord',]
     new_words = list(filter(lambda w: w in list_attributes_to_keep, x))
     return new_words
 
@@ -201,11 +229,3 @@ def get_corpus(df):
     return corpus 
 
 
-    
-def get_popularity(df):
-    """ Adds together favorites_count and projects_count as a populartiy metric.
-    Used for output in simple recommender. """
-    
-    df['popularity'] = df.favorites_count+ df.projects_count
-    df = df.sort_values("popularity", ascending =False)
-    return df
