@@ -15,6 +15,10 @@ def get_metadata_from_name_permalink(name_permalink, df):
         print("pattern not found in dataframe - making api call to gather data")
         #get metadata
 
+# def get_pattern_id_from_name(name_permalink):
+#     pattern_id = metadata[metadata.name_permalink == name_permalink]['pattern_id']
+#     return pattern_id[pattern_id.keys()[0]]
+
 def get_pattern_metadata_from_url(pattern_url, df):
     name_permalink = get_name_permalink_from_url(pattern_url)
     return get_metadata_from_name_permalink(name_permalink)
@@ -228,4 +232,21 @@ def get_corpus(df):
     corpus = df['pattern_attributes'].tolist()
     return corpus 
 
+#---------------------------------------------
 
+def clean_out_bad_data(df):
+    """ removes bad data from saving .csv, or double loading in api pull process.  Also eliminates any patterns without enough presence or data """
+    # remove extra indicies from .csv appending and accidental douplicates
+    df = df.drop(df[df['pattern_id']=='pattern_id'].index)
+    df = df.drop_duplicates()
+    
+    # not enough projects (43451 rows)
+    df = df.drop(df[df['projects_count'] <= 10].index)
+    
+    # drop rows with too many nulls (15795 rows)
+    df = df.drop(df[df.isnull().sum(axis=1) >3].index)
+    
+    # drop if no category
+    df = df.drop(df[df['categories'].isna()].index)
+
+    return df

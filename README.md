@@ -1,41 +1,101 @@
 # Ravelry Recommender Engine
 
 ### Demo
-This is temporarily available through:
-
-
+This is temporarily available here: http://ec2-3-137-151-88.us-east-2.compute.amazonaws.com:5000/recommend/monkey-socks 
+![image info](images/demo_screenshot.png)
 
 ### Probelm:
 [Ravelry](https://www.ravelry.com/) has cornered the market in terms online knitting and crochet content. Nearly any pattern can be found in it's database. The website is well laid out with a fabulous search menu - if you know what you're looking for, but if you don't you can get lost for hours trying to dig through the hundreds of thousands of options.  
 
-Knitting is a hobby known for destressing or relaxing.  However, the act of picking out the next pattern to start can be quite stressful.  This is compounded by the pressure of choosing the perfect option as you could be spending 10's to 100's of hours working on it, and the monetary cost for yarn can be quite high as well, so want to avoid selection-regret.  I often find myself paralized with the paradox of choice when browsing for what to work on. 
+Knitting is a hobby known for destressing or relaxing.  However, the act of picking out the next pattern to start can be quite stressful.  This is compounded by the pressure of choosing the perfect option as you could be spending 10's to 100's of hours working on it, and the monetary cost for yarn can be quite high as well, so selection-regret can be real.  I often find myself paralized with the paradox of choice when browsing for what to work on. 
 
-This project aims to ease this problem; making this pattern selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. It's been found in the popular [jam study](https://faculty.washington.edu/jdb/345/345%20Articles/Iyengar%20%26%20Lepper%20(2000).pdf),that with people buy less with too many options provided to them, and conversely, in the words of [Steve Jobs](https://www.forbes.com/sites/chunkamui/2011/10/17/five-dangerous-lessons-to-learn-from-steve-jobs/?sh=7f4db0373a95) "A lot of times, people don’t know what they want until you show it to them".
+This project aims to ease this problem; making this pattern selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. It's been found in the popular [jam study](https://faculty.washington.edu/jdb/345/345%20Articles/Iyengar%20%26%20Lepper%20(2000).pdf),that that people buy less with too many options provided to them, and, in the words of [Steve Jobs](https://www.forbes.com/sites/chunkamui/2011/10/17/five-dangerous-lessons-to-learn-from-steve-jobs/?sh=7f4db0373a95) "A lot of times, people don’t know what they want until you show it to them".
 
-A successful recommender system would increase knitting comminty engagement - which is at the core of the website.  By overcoming some selection indecision, more projects could be completed (as well as more patterns being purchased as an added bonus).
+A successful recommender system would increase knitting comminty engagement - which is at the core of the website.  By overcoming some selection indecision, more projects could be completed.
 
 I focussed only on knitting for this recommender engine as it's a hobby I've been practicing for over three decades and more confortable assesing recomendation level of success in that area rather than the other fibre arts of crochet or machine knitting. 
 
 ### About Ravelry
-[Ravelry](https://www.ravelry.com/) is a free indie-website started in 2007 which supports documenting fiber art projects. 
-
-"The community [needed] an independent, not for-profit, decentralized, community owned database of patterns, yarns, and their connections to projects". 
-* - Cassidy :Ravelry co-founder  
-
-Members share projects, ideas, collections of yarn and tools.  Because it's so community driven, nearly any knitting or crochet pattern can be found and reviewed. 
+[Ravelry](https://www.ravelry.com/) is a free indie-website started in 2007 which supports documenting fiber art projects. Members share projects, ideas, collections of yarn and tools.  Because it's so community driven, nearly any knitting or crochet pattern can be found and reviewed. 
 [source](https://en.wikipedia.org/wiki/Ravelry) 
 
 #### Per api agreement:
 I will note that this project is not asscoiated with Ravelry. The data used was graciously provided through Ravelry's public [api](https://www.ravelry.com/api#index).
 
+##### Also:
+Please note this is still a work in progress - there is still much I'd love to explore with this. 
+
 ### Recommendation Systems
-The three main types of re
+The three main types of recommender systems:
+* - ADD IN IMAGE HERE
 
-### The Data
-*downloading limitations , comminity clean up required - several columns were unstructured data nested dictionarys had to be parsed out, 
-missing data
+In this project I explored the content based filtering and collaborative filtering.  I plan to combine them for hybrid filtering in the near future. 
 
-here are the 
+## Content Based Filtering
+
+Content based filtering looks at all the features that make up a knitting pattern and compares those to other patterns with similar features. Luckily there's an api to gather some of these features"
+
+### Data Gathering and Cleaning
+
+As I mentioned anyone can post patterns to Ravelry, there was unclean, semi-structured data, and lots of missing data Also there were api limitations - max 100,000 per query, and 500 results per page (in some cases I had to bring that down to 100 to keep it from timing out), so I had a lot of fun extracting and cleaning creating and paring down the number of these features.  
+
+To streamline the processing, a pipe line was used
+
+* INSERT PIPELINE IMAGE HERE
+
+The final features can be found below in the data dictionary. 
+
+After the data's cleaned, numerically encoded and processed, recommendations for a particular pattern can be compared using similarity functions. 
+
+Euclidean Distance is affected by the magnitude of the features, and the cosine of the angle indicates similarity (0 being not at all related, and 1 being perfectly similar).
+
+* IMAGE
+
+
+Here are some results for Sheldon the Turtle
+* ADD LINK  FOR SHELDON
+
+* Add in IMAGE here
+
+## Collaborative Filtering 
+Collaborative filtering looks at the behaviour between users and patterns (made projects). Usually this is based on ratings, because because a large proportion people didn’t rate patterns and 97 % that did gave them a 4 or 5 out of 5, this uses a binary or implicit approach which counts the user actually completing a project as the rating.
+
+### Memory Based
+I used cosine similarity and kNearest neightbours which has the advantages of requiring ,no-training or optimizaion, but the results are easily explainable, doesn’t scale well and difficult to add new data.  Performance also degrades, the more utlilty matrix is sparse. Next steps for me are to rerun this with Pearson similarity as well. 
+
+* Add in IMAGE heere
+
+
+#### Limitations 
+In order to create a less sparse matrix (performance degrades when the matrix is too empty), I limited the projects to ones that had no less than 600 projects made from it.  Also users with less than 30 projects each were dropped.  This reduced the pattern set to around 3000, which is signifigently less than 180000, so comparing patterns with both filters becomes more difficult.  Next steps are to reduce the project threshold to increase the number of patterns.  However running these as they are takes up quite a bit of memory.  An AWS instance with 15 gB of RAM is insufficent. 
+
+### Model Based
+The method I chose for model based filtering was matrix factorization which breaks the user item or pattern matrix into smaller ones.  These smaller matrices represent latent, or more subtle similarities in the patterns. These can be tuned and traing. My next steps here are to tune these models further.  
+
+* IMAGE
+
+#### User-Item Recommendations
+I felt unconfortable using others' data, but ran the implicit model for my user and was pleasently surprised when I was drawn to the recommendations.  I will definitley be looking into that cardigan next week!
+
+* /results 
+
+
+## Next steps:
+*  create a hybrid system
+* update the app to include yardage and yarn weight so that if you have yarn (say from stash, or reclaimed or thrifted) it will filter results to recommend patterns you may like to try to use that yarn up.  I think this could be really valuable.
+* incorporate time sequencing with collaborative filter to capture stages of life (think baby stuff, then kids, then shawls..), also the progression of skill through a knitters journey. (https://keras.io/examples/structured_data/movielens_recommendations_transformers/)
+* take this a step further would be to take yarn in your stash (on ravelry) and use that as a recommender (woah - this could be interesting, take colourways that people use commonly together on projects - ML what works best, with what you have, and your preferences, and patterns and separate yardage requirements)
+* The content based eucildean metic seems to do okay with Sheldon, but I'd love to explore weighting the features to increase the expression of importance of some of the features.  There was another pattern that had icording, and it threw the result off quite a bit. 
+
+## Table of Contents
+* [Week 1](/Week_1)
+    * [Day 1](/Week_1/Day_1)
+### Data Dictionary / Terminology 
+
+FILES 
+
+
+here are the column names of the data I retreived to 
 'pattern_id', 'name', 'name_permalink', 'favorites_count',
        'projects_count', 'difficulty_average', 'difficulty_count',
        'rating_average', 'queued_projects_count', 'rating_count',
@@ -45,68 +105,3 @@ here are the
        'categories', 'yarn_weight_description', 'month_avail', 'year_avail',
        'needle_sizes', 'gauge_per_inch'
        
-after removing outliers that can affect scaling
-
-final columns are 
-# other issues - cold start etc
-time 
-
-## Progress Report:
-
-Nov 27
-- word cloud https://www.datacamp.com/community/tutorials/wordcloud-python
-add in ""short-rows", "ribbed"
-
-Nov 22
-- this morning looked at data and realized, it doesn't match the query (and has duplicates accross queries).  debugged and instead of "most recent", use sort by "best match" - seems to be okay now 
-- updated api query to get actaully relevent data has been running for hours
-- (stretch - have narrowed down to which patterns to pull projects, and then start calling for users for to populate similarity matrix
-- learning about deep NN and RBM's for collabroative model (but worried about data at the moment)
-- okay, have a systematic approach to get user to item dataframe - need to narrow down patterns to use.
-
-Nov 21
-- queried data (very slow process) - managed to get 120 mb (rating 5 clothing and rating 4 all) - turns out that's 
-not actually the data I got (see Nov 22)
-- wrote functions to clean and further parse out data, new features created - still need to figure out how
-to pipeline these as some deal with more than one column at a time. 
-
-
-Nov 20
-- recieved email response from ravelry - very helpful! 
-- still going on the data - MUCH more work than anticipated, and I haven't even gotten to the users yet! (Oh my, over 10million users...)
-- learning about implicit collaborative recommenders - less than 1/5 of users rate patterns, and majority of people who do rate are only very positive (4-5), so going to take projects completed (like netflix veiws) instead. (as - if they've completed project, most times a win, if they hated it, would be "frogged")
-- woot - have a MVP simple recommender (just weighted ratings score - most popular)... for 99 patterns 
-- still need MANY more records (and users) - and WOW its needs a LOT of processing. cleaning - so many missing values/ mix-matches
-
-Nov19
-- MAJOR snag - turns out you need id's for patterns, going to be resource and time consuming to gather data
-- sent email to team, hoping for response, but starting brainstorm alternative ideas, and moving forward
-with this one - with fingers crossed
-- working on accessing, cleaning data 
-
-- 
-Nov 18 
-- picked a topic! And started documentation
-- facing hurdle of actually starting, and worried about data size, what features to keep
-- another hurdle is I'm not confident in recommender systems...yet! 
-- api accessing and getting the data 
-
-Next steps:
-- yarn recommender 
-- if you have yarn (say from stash, or reclaimed or thrifted), recommend patterns you may like to try to use that yarn up*** that would be my stretch goal! (yardage, weight) - excited about this part
-- step further would be to take yarn in your stash (on ravelry) and use that as a recommender (woah - this could be interesting, take colourways that people use commonly together on projects - ML what works best, with what you have, and your preferences, and patterns and separate yardage requirements)
-
-## Table of Contents
-* [Week 1](/Week_1)
-    * [Day 1](/Week_1/Day_1)
-### Data Dictionary / Terminology 
-
-gauge_per_inch - a measure of how loosely quickly a project can be knit up.  - can be related to yarn thickness or airyness of fabric
-
-stages of life - why not user-user recommendations
-eliminate high producers (often pumping out products for craft shows and sales)
-
-** include file list 
-** data dictionary
-
-attributes refer to construction
