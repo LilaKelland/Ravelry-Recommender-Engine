@@ -53,6 +53,8 @@ After the data's cleaned, numerically encoded and processed, recommendations for
 
 Euclidean Distance is affected by the magnitude of the features, and the cosine of the angle indicates similarity (0 being not at all related, and 1 being perfectly similar).
 
+![image info](images/content_similarity.png)
+
 Here are some results for [Sheldon](https://www.ravelry.com/patterns/library/sheldon) the Turtle
 
 * IMAGE to come
@@ -67,7 +69,7 @@ I used cosine similarity and kNearest neightbours which has the advantages of re
 
 
 #### Limitations 
-In order to create a less sparse matrix (performance degrades when the matrix is too empty), I limited the projects to ones that had no less than 600 projects made from it.  Also users with less than 30 projects each were dropped.  This reduced the pattern set to around 3000, which is signifigently less than 180000, so comparing patterns with both filters becomes more difficult.  Next steps are to reduce the project threshold to increase the number of patterns.  However running these as they are takes up quite a bit of memory.  An AWS instance with 15 gB of RAM is insufficent. 
+In order to create a less sparse matrix (performance degrades when the matrix is too empty), I limited the projects to ones that had no less than 600 projects made from it.  Also users with less than 30 projects each were dropped.  This reduced the pattern set to around 3000, which is signifigently less than 180000, so comparing patterns with both filters becomes more difficult.  Next steps are to reduce the project threshold to increase the number of patterns.  However running these as they are takes up quite a bit of memory.  An AWS instance with 16 gB of RAM is insufficent. 
 
 ### Model Based
 The method I chose for model based filtering was matrix factorization which breaks the user item or pattern matrix into smaller ones.  These smaller matrices represent latent, or more subtle similarities in the patterns. These can be tuned and traing. My next steps here are to tune these models further.  
