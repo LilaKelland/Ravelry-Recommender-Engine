@@ -86,8 +86,8 @@ I felt unconfortable using others' data, but ran the implicit model for my user 
 *  create a hybrid system
 * update the app to include yardage and yarn weight so that if you have yarn (say from stash, or reclaimed or thrifted) it will filter results to recommend patterns you may like to try to use that yarn up.  I think this could be really valuable.
 * incorporate time sequencing with collaborative filter to capture stages of life (think baby stuff, then kids, then shawls..), also the progression of skill through a knitters journey. (https://keras.io/examples/structured_data/movielens_recommendations_transformers/)
-* take this a step further would be to take yarn in your stash (on ravelry) and use that as a recommender (woah - this could be interesting, take colourways that people use commonly together on projects - ML what works best, with what you have, and your preferences, and patterns and separate yardage requirements)
-* The content based eucildean metic seems to do okay with Sheldon, but I'd love to explore weighting the features to increase the expression of importance of some of the features.  There was another pattern that had icording, and it threw the result off quite a bit. 
+* take this a step further would be to take yarn in your stash (on ravelry) and use that as a recommender (take colourways that people use commonly together on projects - ML what works best, with what you have, and your preferences)
+* The content based eucildean metic seems to do okay with Sheldon, but I'd love to explore weighting the features to increase the expression of importance of some of the features. 
 
 #### Files 
 * Details to come
