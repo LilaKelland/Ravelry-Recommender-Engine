@@ -7,15 +7,15 @@ This is temporarily available [here](http://ec2-3-137-151-88.us-east-2.compute.a
 Change the endpoint ("monkey-socks") to a pattern endpoint found in Ravelry.  For example, https://www.ravelry.com/patterns/library/birds-of-a-feather-14 you would use http://ec2-3-137-151-88.us-east-2.compute.amazonaws.com:5000/recommend/birds-of-a-feather-14
 
 ### Probelm:
-[Ravelry](https://www.ravelry.com/) has cornered the market in terms online knitting and crochet content. Nearly any pattern can be found in it's database. The website is well laid out with a fabulous search menu - if you know what you're looking for, but if you don't you can get lost for hours trying to dig through the hundreds of thousands of options.  
+[Ravelry](https://www.ravelry.com/) has cornered the market in terms online knitting and crochet content. Nearly any pattern can be found in it's database. The website is well laid out with a fabulous search menu - if you know exactly what you're looking for, but if you don't you can get lost for hours trying to dig through the hundreds of thousands of options.  
 
-Knitting is a hobby known for destressing or relaxing.  However, the act of picking out the next pattern to start can be quite stressful.  This is compounded by the pressure of choosing the perfect option as you could be spending 10's to 100's of hours working on it, and the monetary cost for yarn can be quite high as well, so selection-regret can be real.  I often find myself paralized with the paradox of choice when browsing for what to work on. 
+Knitting is a hobby known for destressing or relaxing. I often find myself paralized with the paradox of choice when browsing for what to work on, and find pattern selection more stressful than it needs to be. 
 
-This project aims to ease this problem; making this pattern selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. It's been found in the popular [jam study](https://faculty.washington.edu/jdb/345/345%20Articles/Iyengar%20%26%20Lepper%20(2000).pdf),that that people buy less with too many options provided to them, and, in the [words] (https://www.forbes.com/sites/chunkamui/2011/10/17/five-dangerous-lessons-to-learn-from-steve-jobs/?sh=7f4db0373a95)of Steve Jobs. "A lot of times, people don’t know what they want until you show it to them".
+This project aims to ease this problem; making this pattern selection process easier, by providing pattern recommendations to the user, when given a particular pattern the user enjoyed or likes. It's been found in the popular [jam study](https://faculty.washington.edu/jdb/345/345%20Articles/Iyengar%20%26%20Lepper%20(2000).pdf),that that people buy less with too many options provided to them, and, in the [words](https://www.forbes.com/sites/chunkamui/2011/10/17/five-dangerous-lessons-to-learn-from-steve-jobs/?sh=7f4db0373a95) of Steve Jobs. "A lot of times, people don’t know what they want until you show it to them".
 
-A successful recommender system would increase knitting comminty engagement - which is at the core of the website.  By overcoming some selection indecision, more projects could be completed.
+A successful recommender system would increase knitting comminty engagement - which is at the core of the website.  And by overcoming some selection indecision, more projects could be completed.
 
-I focussed only on knitting for this recommender engine as it's a hobby I've been practicing for over three decades and more confortable assesing recomendation level of success in that area rather than the other fibre arts of crochet or machine knitting. 
+I focused only on knitting for this recommender engine as it's a hobby I've been practicing for over three decades and more confortable assesing recomendation level of success in that area rather than the other fibre arts of crochet or machine knitting. 
 
 ### About Ravelry
 [Ravelry](https://www.ravelry.com/) is a free indie-website started in 2007 which supports documenting fiber art projects. Members share projects, ideas, collections of yarn and tools.  Because it's so community driven, nearly any knitting or crochet pattern can be found and reviewed. 
@@ -31,13 +31,13 @@ Please note this is still a work in progress!
 The three main types of recommender systems:
 ![image info](images/recommender_system_types_image.png)
 
-[Source](https://www.kdnuggets.com/2019/09/machine-learning-recommender-systems.html)
+[Source: kdnuggets](https://www.kdnuggets.com/2019/09/machine-learning-recommender-systems.html)
 
 In this project I explored the content based filtering and collaborative filtering.  I plan to combine them for hybrid filtering in the near future. 
 
 ## Content Based Filtering
 
-Content based filtering looks at all the features that make up a knitting pattern and compares those to other patterns with similar features. Luckily there's an api to gather some of these features"
+Content based filtering looks at all the features that make up a knitting pattern and compares those to other patterns with similar features. Luckily there's an api to gather some of these features; knitting gauge, needle size, amount of yarn (yardage), and various attributes and categories.
 
 ### Data Gathering and Cleaning
 
@@ -52,9 +52,6 @@ The final features can be found below in the data dictionary.
 After the data's cleaned, numerically encoded and processed, recommendations for a particular pattern can be compared using similarity functions. 
 
 Euclidean Distance is affected by the magnitude of the features, and the cosine of the angle indicates similarity (0 being not at all related, and 1 being perfectly similar).
-
-* IMAGE to come
-
 
 Here are some results for [Sheldon](https://www.ravelry.com/patterns/library/sheldon) the Turtle
 
